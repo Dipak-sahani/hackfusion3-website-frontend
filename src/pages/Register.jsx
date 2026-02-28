@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { authAPI } from '../services/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserPlus, Mail, Lock, User } from 'lucide-react';
@@ -10,8 +10,14 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [specialization, setSpecialization] = useState('');
     const [role, setRole] = useState('admin');
-    const { register, loading, error } = useAuthStore();
+    const { register, loading, error, isAuthenticated } = useAuthStore();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/dashboard');
+        }
+    }, [isAuthenticated, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useAuthStore from '../context/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Mail } from 'lucide-react';
@@ -7,8 +7,18 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('admin');
-    const { login, loading, error } = useAuthStore();
+    const { login, loading, error, isAuthenticated, user } = useAuthStore();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isAuthenticated && user) {
+            if (user.role === 'doctor') {
+                navigate('/doctor-dashboard');
+            } else {
+                navigate('/dashboard');
+            }
+        }
+    }, [isAuthenticated, user, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
