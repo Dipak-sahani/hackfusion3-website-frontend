@@ -46,8 +46,8 @@ api.interceptors.response.use(
 export const authAPI = {
     login: (credentials) => api.post('auth/login', credentials),
     register: (userData) => api.post('auth/register', userData),
-    doctorLogin: (credentials) => api.post('doctor/login', credentials),
-    doctorRegister: (userData) => api.post('doctor/register', userData),
+    doctorLogin: (credentials) => api.post('auth/login', credentials),
+    doctorRegister: (userData) => api.post('auth/register', { ...userData, role: 'doctor' }),
 };
 
 export const doctorAPI = {
