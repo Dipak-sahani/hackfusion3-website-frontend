@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 
 const ManualReviewPanel = () => {
     const [pendingReviews, setPendingReviews] = useState([]);
@@ -12,7 +12,7 @@ const ManualReviewPanel = () => {
     const fetchPendingReviews = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:3000/api/prescriptions/manual-review/pending', {
+            const response = await api.get('/prescriptions/manual-review/pending', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setPendingReviews(response.data);
@@ -38,7 +38,7 @@ const ManualReviewPanel = () => {
         if (!selectedReview) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.post(`http://localhost:3000/api/prescriptions/manual-review/${selectedReview._id}/action`, {
+            await api.post(`/prescriptions/manual-review/${selectedReview._id}/action`, {
                 action,
                 notes
             }, {
@@ -58,7 +58,7 @@ const ManualReviewPanel = () => {
         if (!selectedReview || !editData) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`http://localhost:3000/api/prescriptions/manual-review/${selectedReview._id}/update-data`, {
+            await api.put(`/prescriptions/manual-review/${selectedReview._id}/update-data`, {
                 extractedData: editData,
                 notes: notes || "Doctor updated the extracted data"
             }, {
