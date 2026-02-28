@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 const api = axios.create({
     baseURL: API_URL,
@@ -53,6 +53,11 @@ export const medicineAPI = {
     create: (data) => api.post('/medicines', data),
     update: (id, data) => api.put(`/medicines/${id}`, data),
     delete: (id) => api.delete(`/medicines/${id}`),
+    upload: (formData) => api.post('/medicines/upload', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    }),
 };
 
 export const orderAPI = {
