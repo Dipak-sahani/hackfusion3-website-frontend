@@ -37,8 +37,11 @@ const useAuthStore = create((set) => ({
     register: async (userData, role = 'admin') => {
         set({ loading: true, error: null });
         try {
+            const payload = { ...userData, role };
+            console.log(`[AUTH] Registering via Store. Role: ${role}, Payload Role: ${payload.role}`);
+
             const response = (role === 'admin' || role === 'customer')
-                ? await authAPI.register(userData)
+                ? await authAPI.register(payload)
                 : await authAPI.doctorRegister(userData);
 
             const { token, ...user } = response.data;

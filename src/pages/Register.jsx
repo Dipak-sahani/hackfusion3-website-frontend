@@ -22,10 +22,12 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const userData = { name, email, password };
+        const userData = { name, email, password, role };
         if (role === 'doctor') {
             userData.specialization = specialization;
         }
+
+        console.log("[DEBUG] Submitting registration with data:", { ...userData, password: '***' });
 
         const success = await register(userData, role);
         if (success) {
