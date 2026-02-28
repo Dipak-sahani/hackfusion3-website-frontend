@@ -11,7 +11,7 @@ const useAuthStore = create((set) => ({
     login: async (email, password, role = 'admin') => {
         set({ loading: true, error: null });
         try {
-            const response = role === 'admin'
+            const response = (role === 'admin' || role === 'customer')
                 ? await authAPI.login({ email, password })
                 : await authAPI.doctorLogin({ email, password });
 
@@ -37,7 +37,7 @@ const useAuthStore = create((set) => ({
     register: async (userData, role = 'admin') => {
         set({ loading: true, error: null });
         try {
-            const response = role === 'admin'
+            const response = (role === 'admin' || role === 'customer')
                 ? await authAPI.register(userData)
                 : await authAPI.doctorRegister(userData);
 

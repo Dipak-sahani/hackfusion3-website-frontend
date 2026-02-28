@@ -44,18 +44,25 @@ const Login = () => {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="flex justify-center space-x-4 mb-4">
+                    <div className="flex justify-center space-x-2 mb-4">
                         <button
                             type="button"
                             onClick={() => setRole('admin')}
-                            className={`px-4 py-2 text-sm font-medium rounded-md ${role === 'admin' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                            className={`px-3 py-2 text-xs font-medium rounded-md ${role === 'admin' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
                         >
                             Admin
                         </button>
                         <button
                             type="button"
+                            onClick={() => setRole('customer')}
+                            className={`px-3 py-2 text-xs font-medium rounded-md ${role === 'customer' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                        >
+                            Customer
+                        </button>
+                        <button
+                            type="button"
                             onClick={() => setRole('doctor')}
-                            className={`px-4 py-2 text-sm font-medium rounded-md ${role === 'doctor' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                            className={`px-3 py-2 text-xs font-medium rounded-md ${role === 'doctor' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
                         >
                             Doctor
                         </button>
