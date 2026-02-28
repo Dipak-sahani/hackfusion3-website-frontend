@@ -34,26 +34,26 @@ api.interceptors.response.use(
 );
 
 export const authAPI = {
-    login: (credentials) => api.post('/auth/login', credentials),
-    register: (userData) => api.post('/auth/register', userData),
-    doctorLogin: (credentials) => api.post('/doctor/login', credentials),
-    doctorRegister: (userData) => api.post('/doctor/register', userData),
+    login: (credentials) => api.post('auth/login', credentials),
+    register: (userData) => api.post('auth/register', userData),
+    doctorLogin: (credentials) => api.post('doctor/login', credentials),
+    doctorRegister: (userData) => api.post('doctor/register', userData),
 };
 
 export const doctorAPI = {
-    getProfile: () => api.get('/doctor/profile'),
-    updateAvailability: (availability) => api.post('/doctor/availability', { availability }),
-    getAppointments: () => api.get('/doctor/appointments'),
-    updateStatus: (id, status) => api.patch(`/doctor/appointment/${id}/status`, { status }),
-    addNotes: (id, notes) => api.post(`/doctor/appointment/${id}/notes`, { notes }),
+    getProfile: () => api.get('doctor/profile'),
+    updateAvailability: (availability) => api.post('doctor/availability', { availability }),
+    getAppointments: () => api.get('doctor/appointments'),
+    updateStatus: (id, status) => api.patch(`doctor/appointment/${id}/status`, { status }),
+    addNotes: (id, notes) => api.post(`doctor/appointment/${id}/notes`, { notes }),
 };
 
 export const medicineAPI = {
-    getAll: () => api.get('/medicines'),
-    create: (data) => api.post('/medicines', data),
-    update: (id, data) => api.put(`/medicines/${id}`, data),
-    delete: (id) => api.delete(`/medicines/${id}`),
-    upload: (formData) => api.post('/medicines/upload', formData, {
+    getAll: () => api.get('medicines'),
+    create: (data) => api.post('medicines', data),
+    update: (id, data) => api.put(`medicines/${id}`, data),
+    delete: (id) => api.delete(`medicines/${id}`),
+    upload: (formData) => api.post('medicines/upload', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -61,11 +61,11 @@ export const medicineAPI = {
 };
 
 export const orderAPI = {
-    getAll: () => api.get('/orders/all'),
+    getAll: () => api.get('orders/all'),
 };
 
 export const inventoryAPI = {
-    getLogs: () => api.get('/inventory/logs'),
+    getLogs: () => api.get('inventory/logs'),
 };
 
 export default api;

@@ -12,7 +12,7 @@ const ManualReviewPanel = () => {
     const fetchPendingReviews = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await api.get('/prescriptions/manual-review/pending', {
+            const response = await api.get('prescriptions/manual-review/pending', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setPendingReviews(response.data);
@@ -38,7 +38,7 @@ const ManualReviewPanel = () => {
         if (!selectedReview) return;
         try {
             const token = localStorage.getItem('token');
-            await api.post(`/prescriptions/manual-review/${selectedReview._id}/action`, {
+            await api.post(`prescriptions/manual-review/${selectedReview._id}/action`, {
                 action,
                 notes
             }, {
@@ -58,7 +58,7 @@ const ManualReviewPanel = () => {
         if (!selectedReview || !editData) return;
         try {
             const token = localStorage.getItem('token');
-            await api.put(`/prescriptions/manual-review/${selectedReview._id}/update-data`, {
+            await api.put(`prescriptions/manual-review/${selectedReview._id}/update-data`, {
                 extractedData: editData,
                 notes: notes || "Doctor updated the extracted data"
             }, {
