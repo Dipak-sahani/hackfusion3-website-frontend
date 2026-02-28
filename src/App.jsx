@@ -24,6 +24,25 @@ const ProtectedRoute = ({ children }) => {
   return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
+const RoleProtectedRoute = ({ children, allowedRoles }) => {
+  const { isAuthenticated, user } = useAuthStore();
+
+  if (!isAuthenticated) return <Navigate to="/login" />;
+
+  if (user && !allowedRoles.includes(user.role)) {
+    // Redirect doctors to their dashboard if they try to access admin routes
+    if (user.role === 'doctor') return <Navigate to="/doctor-dashboard" />;
+    // Forbidden for others
+    return <div className="flex flex-col items-center justify-center min-h-screen bg-red-50 text-red-800 p-8">
+      <h1 className="text-4xl font-bold mb-4">403 Forbidden</h1>
+      <p>Your account ({user.email}) does not have administrative privileges.</p>
+      <button onClick={() => window.location.href = '/login'} className="mt-6 bg-red-600 text-white px-6 py-2 rounded-lg">Switch Account</button>
+    </div>;
+  }
+
+  return children;
+};
+
 function App() {
   return (
     <Router>
@@ -33,12 +52,14 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         {/* Protected Routes wrapped in Layout */}
-        <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+        <Route element={<RoleProtectedRoute allowedRoles={['admin']}><Layout /></RoleProtectedRoute>}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/logs" element={<Logs />} />
+        </Route>
 
+        <Route element={<RoleProtectedRoute allowedRoles={['doctor', 'admin']}><Layout /></RoleProtectedRoute>}>
           {/* Doctor Specific Routes */}
           <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
           <Route path="/availability" element={<Availability />} />

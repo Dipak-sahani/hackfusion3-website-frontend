@@ -16,7 +16,9 @@ const useAuthStore = create((set) => ({
                 : await authAPI.doctorLogin({ email, password });
 
             const { token, ...user } = response.data;
-            user.role = role; // Ensure role is preserved from choice if not in response
+            // The backend returns the correct role in response.data.role
+            // Only fall back to selection if the backend doesn't provide it
+            if (!user.role) user.role = role;
 
             localStorage.setItem('adminToken', token);
             localStorage.setItem('adminUser', JSON.stringify(user));
@@ -40,7 +42,7 @@ const useAuthStore = create((set) => ({
                 : await authAPI.doctorRegister(userData);
 
             const { token, ...user } = response.data;
-            user.role = role;
+            if (!user.role) user.role = role;
 
             localStorage.setItem('adminToken', token);
             localStorage.setItem('adminUser', JSON.stringify(user));
