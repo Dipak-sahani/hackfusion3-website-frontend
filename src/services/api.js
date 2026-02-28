@@ -1,6 +1,15 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || ''; // Fallback to empty to avoid exposing localhost if not set
+let API_URL = import.meta.env.VITE_API_URL || ''; // Fallback to empty to avoid exposing localhost if not set
+
+// Ensure URL ends with /api and no trailing slash
+if (API_URL && !API_URL.endsWith('/api') && !API_URL.endsWith('/api/')) {
+    API_URL = API_URL.endsWith('/') ? `${API_URL}api` : `${API_URL}/api`;
+}
+// Strip trailing slash if present for consistency with relative paths
+if (API_URL.endsWith('/')) {
+    API_URL = API_URL.slice(0, -1);
+}
 
 const api = axios.create({
     baseURL: API_URL,
