@@ -196,9 +196,10 @@ const Inventory = () => {
                             <th>Product Name</th>
                             <th>Product ID</th>
                             <th>PZN</th>
+                            <th>Stock</th>
+                            <th>Status</th>
                             <th>Price rec.</th>
                             <th>Package</th>
-                            <th>Description</th>
                             <th className="text-right">Actions</th>
                         </tr>
                     </thead>
@@ -208,9 +209,10 @@ const Inventory = () => {
                                 <td className="font-semibold text-gray-800">{med.name}</td>
                                 <td className="text-gray-600 text-sm">{med.productId || '—'}</td>
                                 <td className="text-gray-600 text-sm">{med.pzn || '—'}</td>
+                                <td className="text-indigo-600 font-bold">{med.currentStock}</td>
+                                <td>{getStatusBadge(med.status)}</td>
                                 <td className="font-medium">€{med.priceRec || med.pricePerUnit}</td>
                                 <td className="text-gray-600 text-sm">{med.packageSize || med.unit}</td>
-                                <td className="text-gray-500 text-xs max-w-[150px] truncate" title={med.description}>{med.description || '—'}</td>
                                 <td className="text-right">
                                     <button onClick={() => openEdit(med)} className="p-2 text-gray-400 hover:text-indigo-600 transition-colors"><Edit className="w-4 h-4" /></button>
                                     <button onClick={() => handleDelete(med._id || med.id)} className="p-2 text-gray-400 hover:text-red-600 transition-colors"><Trash2 className="w-4 h-4" /></button>
@@ -260,9 +262,35 @@ const Inventory = () => {
                                     <input type="number" step="0.01" className="w-full p-2.5 border border-gray-200 rounded-xl text-sm" value={formData.pricePerUnit} onChange={e => setFormData({ ...formData, pricePerUnit: Number(e.target.value) })} />
                                 </div>
                             </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label className="text-xs text-gray-500 font-medium mb-1 block">Unit</label>
+                                    <select className="w-full p-2.5 border border-gray-200 rounded-xl text-sm" value={formData.unit} onChange={e => setFormData({ ...formData, unit: e.target.value })}>
+                                        <option value="tablet">tablet</option>
+                                        <option value="strip">strip</option>
+                                        <option value="bottle">bottle</option>
+                                        <option value="ml">ml</option>
+                                        <option value="g">g</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="text-xs text-gray-500 font-medium mb-1 block">Low Stock Threshold</label>
+                                    <input type="number" className="w-full p-2.5 border border-gray-200 rounded-xl text-sm" value={formData.lowStockThreshold} onChange={e => setFormData({ ...formData, lowStockThreshold: Number(e.target.value) })} />
+                                </div>
+                            </div>
                             <div>
                                 <label className="text-xs text-gray-500 font-medium mb-1 block">Description</label>
                                 <textarea className="w-full p-2.5 border border-gray-200 rounded-xl text-sm min-h-[80px]" placeholder="Medicine description, usage, etc." value={formData.description || ''} onChange={e => setFormData({ ...formData, description: e.target.value })} />
+                            </div>
+                            <div className="flex items-center gap-2 py-1">
+                                <input
+                                    type="checkbox"
+                                    id="requiresPrescription"
+                                    className="w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
+                                    checked={formData.requiresPrescription}
+                                    onChange={e => setFormData({ ...formData, requiresPrescription: e.target.checked })}
+                                />
+                                <label htmlFor="requiresPrescription" className="text-sm text-gray-700 font-medium cursor-pointer">Requires Prescription</label>
                             </div>
                             <div className="flex justify-end gap-2 pt-2">
                                 <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Cancel</button>
