@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useAuthStore from '../context/useAuthStore';
-import { LayoutDashboard, Pill, ClipboardList, FileText, LogOut, Menu, Calendar, Video, User } from 'lucide-react';
+import { LayoutDashboard, Pill, ClipboardList, FileText, LogOut, Menu, Calendar, Video, User, AlertTriangle } from 'lucide-react';
 
 const Layout = () => {
     const { logout, user } = useAuthStore();
@@ -21,6 +21,7 @@ const Layout = () => {
     ] : [
         { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
         { path: '/inventory', label: 'Inventory', icon: Pill },
+        { path: '/missing-medicines', label: 'Missing Medicines', icon: AlertTriangle },
         { path: '/orders', label: 'Orders', icon: ClipboardList },
         { path: '/logs', label: 'Logs', icon: FileText },
     ];

@@ -68,6 +68,8 @@ export const medicineAPI = {
             'Content-Type': 'multipart/form-data',
         },
     }),
+    getMissing: () => api.get('medicines/missing'),
+    resolveMissing: (id) => api.delete(`medicines/missing/${id}`),
 };
 
 export const orderAPI = {

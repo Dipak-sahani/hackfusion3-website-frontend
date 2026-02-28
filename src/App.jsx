@@ -13,6 +13,7 @@ import Dashboard from './components/Dashboard';
 import Inventory from './components/Inventory';
 import Orders from './components/Orders';
 import Logs from './components/Logs';
+import MissingMedicines from './pages/MissingMedicines';
 
 // Doctor Components
 import DoctorDashboard from './components/doctor/DoctorDashboard';
@@ -55,6 +56,7 @@ function App() {
         <Route element={<RoleProtectedRoute allowedRoles={['admin']}><Layout /></RoleProtectedRoute>}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/inventory" element={<Inventory />} />
+          <Route path="/missing-medicines" element={<MissingMedicines />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/logs" element={<Logs />} />
         </Route>
