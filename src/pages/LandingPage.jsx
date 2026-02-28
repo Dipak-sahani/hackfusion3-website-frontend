@@ -51,7 +51,7 @@ const LandingPage = () => {
                     <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                         <Stethoscope className="text-white w-6 h-6" />
                     </div>
-                    <span className="text-2xl font-bold text-gray-800 tracking-tight">HealthNexus</span>
+                    <span className="text-2xl font-bold text-gray-800 tracking-tight">MedFlow AI</span>
                 </div>
                 <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
                     <a href="#features" className="hover:text-blue-600 transition-colors">Features</a>
