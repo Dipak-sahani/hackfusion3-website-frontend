@@ -15,11 +15,13 @@ const useAuthStore = create((set) => ({
                 ? await authAPI.login({ email, password })
                 : await authAPI.doctorLogin({ email, password });
 
-            const { token, ...user } = response.data;
-
             // STRICT ROLE CHECK
             if (user.role && user.role !== role) {
-                throw new Error(`Access Denied: Your account role is '${user.role}', but you tried to login as '${role}'.`);
+                set({
+                    error: `Access Denied: Your account role is '${user.role}', but you tried to login as '${role}'.`,
+                    loading: false
+                });
+                return false;
             }
 
             if (!user.role) user.role = role;
