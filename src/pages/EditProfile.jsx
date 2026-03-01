@@ -7,6 +7,7 @@ const EditProfile = () => {
     const { user } = useAuthStore();
 
     const [name, setName] = useState(user?.name || '');
+    const [email, setEmail] = useState(user?.email || '');
     const [age, setAge] = useState(user?.age || '');
     const [gender, setGender] = useState(user?.gender || '');
     const [city, setCity] = useState(user?.city || '');
@@ -21,10 +22,14 @@ const EditProfile = () => {
             setMessage({ type: 'error', text: 'Name cannot be empty.' });
             return;
         }
+        if (!email.trim()) {
+            setMessage({ type: 'error', text: 'Email cannot be empty.' });
+            return;
+        }
 
         setLoading(true);
         try {
-            const payload = { name: name.trim() };
+            const payload = { name: name.trim(), email: email.trim() };
             if (age) payload.age = Number(age);
             if (gender) payload.gender = gender;
             if (city) payload.city = city.trim();
@@ -82,6 +87,17 @@ const EditProfile = () => {
                             onChange={(e) => setName(e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Your name"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="your@email.com"
                         />
                     </div>
 

@@ -1,27 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Box,
-    Typography,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Button,
-    Chip,
-    CircularProgress,
-    Alert,
-    Snackbar
-} from '@mui/material';
 import { medicineAPI } from '../services/api';
+import { AlertTriangle, CheckCircle, X } from 'lucide-react';
 
 const MissingMedicines = () => {
     const [missingItems, setMissingItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
 
     useEffect(() => {
         fetchMissingMedicines();
@@ -44,103 +29,98 @@ const MissingMedicines = () => {
     const handleResolve = async (id, name) => {
         try {
             await medicineAPI.resolveMissing(id);
-            setSnackbar({ open: true, message: `${name} marked as resolved.`, severity: 'success' });
-            fetchMissingMedicines(); // Refresh the list
+            showToast(`${name} marked as resolved.`, 'success');
+            fetchMissingMedicines();
         } catch (err) {
             console.error('Failed to resolve missing medicine:', err);
-            setSnackbar({ open: true, message: `Failed to resolve ${name}.`, severity: 'error' });
+            showToast(`Failed to resolve ${name}.`, 'error');
         }
     };
 
-    const handleCloseSnackbar = () => setSnackbar(prev => ({ ...prev, open: false }));
+    const showToast = (message, type) => {
+        setToast({ show: true, message, type });
+        setTimeout(() => setToast(prev => ({ ...prev, show: false })), 4000);
+    };
 
     if (loading) {
         return (
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-                <CircularProgress />
-            </Box>
+            <div className="flex justify-center items-center min-h-[60vh]">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+            </div>
         );
     }
 
     return (
-        <Box p={3}>
-            <Typography variant="h4" gutterBottom fontWeight="bold" color="primary">
+        <div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-1 flex items-center gap-2">
+                <AlertTriangle className="w-6 h-6 text-orange-500" />
                 Missing Medicines Alerts
-            </Typography>
-            <Typography variant="body1" color="textSecondary" paragraph>
-                These medicines were requested by users (via prescriptions) but are not currently available in the inventory. Please add them to your stock.
-            </Typography>
+            </h2>
+            <p className="text-gray-500 mb-4 text-sm">
+                These medicines were requested by users but are not in the inventory. Please add them to your stock.
+            </p>
 
-            {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+            {error && (
+                <div className="bg-red-100 text-red-700 p-3 rounded-lg mb-4 text-sm">{error}</div>
+            )}
 
-            <TableContainer component={Paper} elevation={3}>
-                <Table>
-                    <TableHead sx={{ backgroundColor: 'primary.main' }}>
-                        <TableRow>
-                            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Medicine Name</TableCell>
-                            <TableCell sx={{ color: 'white', fontWeight: 'bold' }} align="center">Times Requested</TableCell>
-                            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Last Requested</TableCell>
-                            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Status</TableCell>
-                            <TableCell sx={{ color: 'white', fontWeight: 'bold' }} align="right">Actions</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
+            <div className="bg-white rounded-lg shadow overflow-hidden">
+                <table className="min-w-full">
+                    <thead className="bg-blue-600">
+                        <tr>
+                            <th className="text-left px-4 py-3 text-white text-sm font-semibold">Medicine Name</th>
+                            <th className="text-center px-4 py-3 text-white text-sm font-semibold">Times Requested</th>
+                            <th className="text-left px-4 py-3 text-white text-sm font-semibold">Last Requested</th>
+                            <th className="text-left px-4 py-3 text-white text-sm font-semibold">Status</th>
+                            <th className="text-right px-4 py-3 text-white text-sm font-semibold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
                         {missingItems.length === 0 ? (
-                            <TableRow>
-                                <TableCell colSpan={5} align="center">
-                                    <Typography py={3} color="textSecondary">
-                                        No missing medicines currently tracked.
-                                    </Typography>
-                                </TableCell>
-                            </TableRow>
+                            <tr>
+                                <td colSpan={5} className="px-4 py-8 text-center text-gray-400">
+                                    No missing medicines currently tracked.
+                                </td>
+                            </tr>
                         ) : (
                             missingItems.map((item) => (
-                                <TableRow key={item._id} hover>
-                                    <TableCell component="th" scope="row">
-                                        <Typography fontWeight="500">{item.name}</Typography>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <Chip
-                                            label={item.requestedCount}
-                                            color={item.requestedCount > 3 ? "error" : "default"}
-                                            size="small"
-                                            variant={item.requestedCount > 3 ? "filled" : "outlined"}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
+                                <tr key={item._id} className="hover:bg-gray-50">
+                                    <td className="px-4 py-3 font-medium text-gray-800">{item.name}</td>
+                                    <td className="px-4 py-3 text-center">
+                                        <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${item.requestedCount > 3 ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'}`}>
+                                            {item.requestedCount}
+                                        </span>
+                                    </td>
+                                    <td className="px-4 py-3 text-sm text-gray-600">
                                         {new Date(item.lastRequestedAt).toLocaleDateString()} at {new Date(item.lastRequestedAt).toLocaleTimeString()}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Chip label={item.status} color="warning" size="small" />
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <Button
-                                            variant="contained"
-                                            color="success"
-                                            size="small"
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        <span className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">{item.status}</span>
+                                    </td>
+                                    <td className="px-4 py-3 text-right">
+                                        <button
                                             onClick={() => handleResolve(item._id, item.name)}
+                                            className="inline-flex items-center gap-1 px-3 py-1.5 bg-green-600 text-white text-xs font-medium rounded-md hover:bg-green-700 transition-colors"
                                         >
+                                            <CheckCircle className="w-3.5 h-3.5" />
                                             Mark Resolved
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
+                                        </button>
+                                    </td>
+                                </tr>
                             ))
                         )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                    </tbody>
+                </table>
+            </div>
 
-            <Snackbar
-                open={snackbar.open}
-                autoHideDuration={6000}
-                onClose={handleCloseSnackbar}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            >
-                <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
-                    {snackbar.message}
-                </Alert>
-            </Snackbar>
-        </Box>
+            {/* Toast */}
+            {toast.show && (
+                <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 text-sm z-50 ${toast.type === 'error' ? 'bg-red-600 text-white' : 'bg-green-600 text-white'}`}>
+                    {toast.message}
+                    <button onClick={() => setToast(prev => ({ ...prev, show: false }))}><X className="w-4 h-4" /></button>
+                </div>
+            )}
+        </div>
     );
 };
 
