@@ -211,7 +211,7 @@ const Inventory = () => {
                                 <td className="text-gray-600 text-sm">{med.pzn || '—'}</td>
                                 <td className="text-indigo-600 font-bold">{med.currentStock}</td>
                                 <td>{getStatusBadge(med.status)}</td>
-                                <td className="font-medium">€{med.priceRec || med.pricePerUnit}</td>
+                                <td className="font-medium">₹{med.priceRec || med.pricePerUnit}</td>
                                 <td className="text-gray-600 text-sm">{med.packageSize || med.unit}</td>
                                 <td className="text-right">
                                     <button onClick={() => openEdit(med)} className="p-2 text-gray-400 hover:text-indigo-600 transition-colors"><Edit className="w-4 h-4" /></button>
@@ -244,7 +244,7 @@ const Inventory = () => {
                             </div>
                             <div className="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label className="text-xs text-gray-500 font-medium mb-1 block">Rec. Price (€)</label>
+                                    <label className="text-xs text-gray-500 font-medium mb-1 block">Rec. Price (₹)</label>
                                     <input type="number" step="0.01" className="w-full p-2.5 border border-gray-200 rounded-xl text-sm" value={formData.priceRec} onChange={e => setFormData({ ...formData, priceRec: Number(e.target.value) })} />
                                 </div>
                                 <div>
@@ -258,7 +258,7 @@ const Inventory = () => {
                                     <input type="number" className="w-full p-2.5 border border-gray-200 rounded-xl text-sm" value={formData.currentStock} onChange={e => setFormData({ ...formData, currentStock: Number(e.target.value) })} />
                                 </div>
                                 <div>
-                                    <label className="text-xs text-gray-500 font-medium mb-1 block">Price (€)</label>
+                                    <label className="text-xs text-gray-500 font-medium mb-1 block">Price (₹)</label>
                                     <input type="number" step="0.01" className="w-full p-2.5 border border-gray-200 rounded-xl text-sm" value={formData.pricePerUnit} onChange={e => setFormData({ ...formData, pricePerUnit: Number(e.target.value) })} />
                                 </div>
                             </div>

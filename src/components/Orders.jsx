@@ -74,7 +74,7 @@ const Orders = () => {
                                             {order.items.length} Items
                                         </p>
                                         <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
-                                            Total: <span className="font-semibold text-gray-900 ml-1">${order.totalAmount}</span>
+                                            Total: <span className="font-semibold text-gray-900 ml-1">₹{order.totalAmount}</span>
                                         </p>
                                     </div>
                                     <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">

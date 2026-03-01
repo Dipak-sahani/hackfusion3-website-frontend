@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useAuthStore from '../context/useAuthStore';
-import { LayoutDashboard, Pill, ClipboardList, FileText, LogOut, Menu, Calendar, Video, User, AlertTriangle } from 'lucide-react';
+import { LayoutDashboard, Pill, ClipboardList, FileText, LogOut, Menu, Calendar, Video, User, AlertTriangle, RefreshCw } from 'lucide-react';
 
 const Layout = () => {
     const { logout, user } = useAuthStore();
@@ -92,6 +92,15 @@ const Layout = () => {
                 </header>
 
                 <div className="p-6">
+                    <div className="flex justify-end mb-4">
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 bg-white rounded-lg shadow-sm border border-gray-200 hover:bg-gray-50 transition-colors"
+                        >
+                            <RefreshCw className="w-4 h-4" />
+                            Refresh
+                        </button>
+                    </div>
                     <Outlet />
                 </div>
             </main>
