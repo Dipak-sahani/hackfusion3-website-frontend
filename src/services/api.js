@@ -48,6 +48,7 @@ export const authAPI = {
     register: (userData) => api.post('auth/register', userData),
     doctorLogin: (credentials) => api.post('auth/login', credentials),
     doctorRegister: (userData) => api.post('auth/register', { ...userData, role: 'doctor' }),
+    updateProfile: (data) => api.put('auth/profile', data),
 };
 
 export const doctorAPI = {

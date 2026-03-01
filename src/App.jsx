@@ -19,6 +19,7 @@ import MissingMedicines from './pages/MissingMedicines';
 import DoctorDashboard from './components/doctor/DoctorDashboard';
 import Availability from './components/doctor/Availability';
 import Consultation from './components/doctor/Consultation';
+import EditProfile from './pages/EditProfile';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
@@ -60,6 +61,7 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/logs" element={<Logs />} />
           <Route path="/admin-review" element={<ManualReviewPanel />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
         </Route>
 
         <Route element={<RoleProtectedRoute allowedRoles={['doctor']}><Layout /></RoleProtectedRoute>}>
@@ -68,6 +70,7 @@ function App() {
           <Route path="/availability" element={<Availability />} />
           <Route path="/consultation" element={<Consultation />} />
           <Route path="/manual-review" element={<ManualReviewPanel />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/dashboard" />} />

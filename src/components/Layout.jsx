@@ -18,12 +18,14 @@ const Layout = () => {
         { path: '/availability', label: 'Availability', icon: Calendar },
         { path: '/consultation', label: 'Consultation', icon: Video },
         { path: '/manual-review', label: 'Prescription Review', icon: FileText },
+        { path: '/edit-profile', label: 'Edit Profile', icon: User },
     ] : [
         { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
         { path: '/inventory', label: 'Inventory', icon: Pill },
         { path: '/missing-medicines', label: 'Missing Medicines', icon: AlertTriangle },
         { path: '/orders', label: 'Orders', icon: ClipboardList },
         { path: '/logs', label: 'Logs', icon: FileText },
+        { path: '/edit-profile', label: 'Edit Profile', icon: User },
     ];
 
     return (
