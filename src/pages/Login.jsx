@@ -22,14 +22,8 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const success = await login(email, password, role);
-        if (success) {
-            if (role === 'doctor') {
-                navigate('/doctor-dashboard');
-            } else {
-                navigate('/dashboard');
-            }
-        }
+        await login(email, password, role);
+        // Navigation is handled securely by the useEffect above once token/user state is updated
     };
 
     return (

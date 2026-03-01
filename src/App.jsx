@@ -59,9 +59,10 @@ function App() {
           <Route path="/missing-medicines" element={<MissingMedicines />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/logs" element={<Logs />} />
+          <Route path="/admin-review" element={<ManualReviewPanel />} />
         </Route>
 
-        <Route element={<RoleProtectedRoute allowedRoles={['doctor', 'admin']}><Layout /></RoleProtectedRoute>}>
+        <Route element={<RoleProtectedRoute allowedRoles={['doctor']}><Layout /></RoleProtectedRoute>}>
           {/* Doctor Specific Routes */}
           <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
           <Route path="/availability" element={<Availability />} />

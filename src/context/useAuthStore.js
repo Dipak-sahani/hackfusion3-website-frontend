@@ -16,8 +16,12 @@ const useAuthStore = create((set) => ({
                 : await authAPI.doctorLogin({ email, password });
 
             const { token, ...user } = response.data;
-            // The backend returns the correct role in response.data.role
-            // Only fall back to selection if the backend doesn't provide it
+
+            // STRICT ROLE CHECK
+            if (user.role && user.role !== role) {
+                throw new Error(`Access Denied: Your account role is '${user.role}', but you tried to login as '${role}'.`);
+            }
+
             if (!user.role) user.role = role;
 
             localStorage.setItem('adminToken', token);

@@ -8,6 +8,9 @@ const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [age, setAge] = useState('');
+    const [gender, setGender] = useState('Male');
+    const [city, setCity] = useState('');
     const [specialization, setSpecialization] = useState('');
     const [role, setRole] = useState('admin');
     const { register, loading, error, isAuthenticated } = useAuthStore();
@@ -22,7 +25,13 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const userData = { name, email, password, role };
+        const parsedAge = parseInt(age, 10);
+        if (isNaN(parsedAge) || parsedAge <= 0) {
+            alert("Please enter a valid age.");
+            return;
+        }
+
+        const userData = { name, email, password, role, age: parsedAge, gender, city };
         if (role === 'doctor') {
             userData.specialization = specialization;
         }
@@ -121,6 +130,45 @@ const Register = () => {
                                 required
                             />
                         </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Age</label>
+                            <input
+                                type="number"
+                                value={age}
+                                onChange={(e) => setAge(e.target.value)}
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                placeholder="e.g. 35"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Gender</label>
+                            <select
+                                value={gender}
+                                onChange={(e) => setGender(e.target.value)}
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                required
+                            >
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">City</label>
+                        <input
+                            type="text"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            placeholder="e.g. New York"
+                            required
+                        />
                     </div>
 
                     <div>
